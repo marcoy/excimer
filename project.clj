@@ -21,5 +21,10 @@
                  [org.clojure/clojure "1.6.0"]
                  [org.clojure/tools.namespace "0.2.7"]
                  [org.clojure/tools.nrepl "0.2.6"]
-                 [org.springframework/spring-context "4.1.3.RELEASE"]
-                 [slingshot "0.12.1"]])
+                 [slingshot "0.12.1"]]
+  :profiles {
+             :provided
+             {
+              :dependencies [[org.springframework/spring-context "4.1.3.RELEASE"]]
+             }
+            })

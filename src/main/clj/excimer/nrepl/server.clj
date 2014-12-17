@@ -21,3 +21,9 @@
   []
   (when-some [s @nrepl-server]
     (:port s)))
+
+(defn is-running
+  []
+  (if-some [s @nrepl-server]
+    true
+    false))

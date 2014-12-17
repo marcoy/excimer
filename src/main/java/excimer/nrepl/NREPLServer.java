@@ -1,7 +1,7 @@
 package excimer.nrepl;
 
+import excimer.clojure.nrepl.ClojureNREPLServer;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
@@ -9,18 +9,16 @@ import org.springframework.context.ApplicationContextAware;
  * A nREPL server.
  */
 public class NREPLServer implements ApplicationContextAware {
+
     public static volatile NREPLServer INSTANCE = null;
 
     private ApplicationContext applicationContext;
-
-    private final int port;
 
     public NREPLServer() {
         this(0);
     }
 
     public NREPLServer(int portArg) {
-        port = portArg;
         INSTANCE = this;
     }
 
@@ -31,5 +29,21 @@ public class NREPLServer implements ApplicationContextAware {
 
     public ApplicationContext getApplicationContext() {
         return applicationContext;
+    }
+
+    public Integer getPort() {
+        return ClojureNREPLServer.getPort();
+    }
+
+    public void startServer() {
+        startServer(0);
+    }
+
+    public void startServer(Integer port) {
+        ClojureNREPLServer.startServer(port);
+    }
+
+    public void stopServer() {
+        ClojureNREPLServer.stopServer();
     }
 }

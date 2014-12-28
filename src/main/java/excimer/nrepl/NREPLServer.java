@@ -4,8 +4,7 @@ import excimer.clojure.nrepl.ClojureNREPLServer;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.jmx.export.annotation.ManagedAttribute;
-import org.springframework.jmx.export.annotation.ManagedResource;
+import org.springframework.jmx.export.annotation.*;
 import org.springframework.stereotype.Component;
 
 /**
@@ -46,14 +45,20 @@ public class NREPLServer implements ApplicationContextAware {
         return ClojureNREPLServer.isRunning();
     }
 
+    @ManagedOperation(description = "Start the NREPLServer on a randomly chosen port.")
     public void startServer() {
         startServer(0);
     }
 
+    @ManagedOperation(description = "Start the NREPLServer on the given port")
+    @ManagedOperationParameters({
+            @ManagedOperationParameter(name = "port", description = "Port to listen on.")
+    })
     public void startServer(Integer port) {
         ClojureNREPLServer.startServer(port);
     }
 
+    @ManagedOperation(description = "Stop the NREPLServer.")
     public void stopServer() {
         ClojureNREPLServer.stopServer();
     }

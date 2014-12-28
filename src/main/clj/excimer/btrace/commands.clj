@@ -65,7 +65,7 @@
   ([] (exit-command 0)))
 
 (defmethod readbytes 2
-  [cmd-type ois]
+  [cmd-type ^ObjectInputStream ois]
   (let [exit-code (.readInt ois)]
     (exit-command exit-code)))
 
@@ -140,11 +140,11 @@
   {:type 5 :new-name n})
 
 (defmethod readbytes 5
-  [cmd-type ois]
+  [cmd-type ^ObjectInputStream ois]
   (rename-command (.readUTF ois)))
 
 (defmethod writebytes 5
-  [cmd oos]
+  [cmd ^ObjectOutputStream oos]
   (do
     (.writeByte oos (byte (:type cmd)))
     (.writeUTF oos (:new-name cmd))
@@ -163,7 +163,8 @@
   (okay-command))
 
 (defmethod writebytes 6
-  [cmd oos])
+  [cmd ^ObjectOutputStream oos]
+  (.flush oos))
 
 (defmethod printcmd 6
   [cmd ^PrintWriter out])
@@ -177,13 +178,13 @@
   ([] (number-data-command nil 0)))
 
 (defmethod readbytes 9
-  [cmd-type ois]
+  [cmd-type ^ObjectInputStream ois]
   (let [n (.readUTF ois)
         v (.readObject ois)]
     (number-data-command n v)))
 
 (defmethod writebytes 9
-  [cmd oos]
+  [cmd ^ObjectOutputStream oos]
   (let [n (if-some [maybe-n (:name cmd)] maybe-n "")
         v (:value cmd)]
     (do
@@ -211,11 +212,11 @@
   {:type 11 :num-classes n})
 
 (defmethod readbytes 11
-  [cmd-type ois]
+  [cmd-type ^ObjectInputStream ois]
   (retransformation-start-notification (.readInt ois)))
 
 (defmethod writebytes 11
-  [cmd oos]
+  [cmd ^ObjectOutputStream oos]
   (do
     (.writeByte oos (byte (:type cmd)))
     (.writeInt oos (:num-classes cmd))
@@ -230,11 +231,11 @@
   {:type 12 :class-name class-name})
 
 (defmethod readbytes 12
-  [cmd-type ois]
+  [cmd-type ^ObjectInputStream ois]
   (retransform-class-notification (.readObject ois)))
 
 (defmethod writebytes 12
-  [cmd oos]
+  [cmd ^ObjectOutputStream oos]
   (do
     (.writeByte oos (byte (:type cmd)))
     (.writeObject oos (:class-name cmd))
@@ -247,3 +248,19 @@
 (defmethod readbytes :default
   [cmd-type ois]
   {:type cmd-type})
+
+
+;; ----------------------------------------------------------------------------
+;; ACTION
+;; ----------------------------------------------------------------------------
+(defn send-cmd
+  "Send a command to the btrace agent"
+  [cmd ^ObjectOutputStream oos]
+  (when (some? oos)
+    (do
+      (.reset oos)
+      (writebytes cmd oos))))
+
+(defn send-exit
+  ([^ObjectOutputStream oos]   (send-exit 0 oos))
+  ([c ^ObjectOutputStream oos] (send-cmd (exit-command c) oos)))

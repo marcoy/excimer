@@ -1,5 +1,6 @@
 (ns excimer.btrace.paths
-  (:require '[clojure.java.io :as io]))
+  (:require [clojure.java.io :as io])
+  (:import [java.io File]))
 
 (defonce classpath (System/getProperty "java.class.path"))
 (defonce java-home (System/getProperty "java.home"))

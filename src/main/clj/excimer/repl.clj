@@ -1,12 +1,26 @@
 (ns excimer.repl
-  (:require [aprint.core :refer :all]
-            [clojure.reflect :refer [reflect]]
+  (:require [aprint.core :as apt]
+            [clojure.reflect :as r]
             [clojure.repl :refer :all]
+            [clojure.stacktrace :as st]
             [clojure.tools.namespace.repl :refer [refresh]]
             [slingshot.slingshot :refer :all])
   (:import [excimer.nrepl NREPLServer]))
 
 
+;; ----------------------------------------------------------------------------
+;; Aliases
+;; ----------------------------------------------------------------------------
+(def reflect r/reflect)
+(def aprint apt/aprint)
+(def print-stack-trace st/print-stack-trace)
+(def print-cause-trace st/print-cause-trace)
+(def print-throwable st/print-throwable)
+
+
+;; ----------------------------------------------------------------------------
+;; Spring
+;; ----------------------------------------------------------------------------
 (defn get-beans
   "Get the list of beans defined in the application context."
   []
@@ -41,3 +55,23 @@
 (defn get-env
   []
   (.. NREPLServer/INSTANCE (getApplicationContext) (getEnvironment)))
+
+
+;; ----------------------------------------------------------------------------
+;; Reflection
+;; ----------------------------------------------------------------------------
+(defn invoke-private-method [obj ^String fn-name-string & args]
+  (let [m (first (filter (fn [x] (.. x getName (equals fn-name-string)))
+                         (.. obj getClass getDeclaredMethods)))]
+    (. m (setAccessible true))
+    (. m (invoke obj (into-array args)))))
+
+(defn get-methods-info [obj]
+  (filter :return-type (:members (reflect obj))))
+
+(defn get-method-names [obj]
+  (map :name (get-methods-info obj)))
+
+(defn get-method-info [obj ^String fn-name]
+  (first (filter (comp (partial = (symbol (str fn-name))) :name)
+                 (:members (reflect obj)))))

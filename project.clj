@@ -21,6 +21,7 @@
                  [org.clojure/clojure "1.6.0"]
                  [org.clojure/tools.namespace "0.2.8"]
                  [org.clojure/tools.nrepl "0.2.6"]
+                 [org.slf4j/slf4j-api "1.7.9"]
                  [slingshot "0.12.1"]]
 
   :profiles {

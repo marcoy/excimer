@@ -1,6 +1,8 @@
 package excimer.nrepl;
 
 import excimer.clojure.nrepl.ClojureNREPLServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ManagedResource(objectName = "excimer:name=NREPLServer")
 public class NREPLServer implements ApplicationContextAware {
+    private static Logger LOGGER = LoggerFactory.getLogger(NREPLServer.class);
 
     public static volatile NREPLServer INSTANCE = null;
 
@@ -55,11 +58,13 @@ public class NREPLServer implements ApplicationContextAware {
             @ManagedOperationParameter(name = "port", description = "Port to listen on.")
     })
     public void startServer(Integer port) {
+        LOGGER.info("Starting a nREPL server on port {}", port);
         ClojureNREPLServer.startServer(port);
     }
 
     @ManagedOperation(description = "Stop the NREPLServer.")
     public void stopServer() {
+        LOGGER.info("Stopping a nREPL server");
         ClojureNREPLServer.stopServer();
     }
 }

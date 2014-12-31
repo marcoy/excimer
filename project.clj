@@ -26,6 +26,6 @@
   :profiles {
              :provided
              {
-              :dependencies [[org.springframework/spring-context "4.1.3.RELEASE"]]
+              :dependencies [[org.springframework/spring-context "4.1.4.RELEASE"]]
              }
             })

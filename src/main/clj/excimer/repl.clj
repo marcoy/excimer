@@ -4,6 +4,7 @@
             [clojure.repl :refer :all]
             [clojure.stacktrace :as st]
             [clojure.tools.namespace.repl :refer [refresh]]
+            [excimer.class-loading :as cl]
             [slingshot.slingshot :refer :all])
   (:import [excimer.nrepl NREPLServer]))
 
@@ -16,6 +17,7 @@
 (def print-stack-trace st/print-stack-trace)
 (def print-cause-trace st/print-cause-trace)
 (def print-throwable st/print-throwable)
+(def invoke-static-method cl/invoke-static-method)
 
 
 ;; ----------------------------------------------------------------------------

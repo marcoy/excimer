@@ -18,6 +18,7 @@
 (def print-cause-trace st/print-cause-trace)
 (def print-throwable st/print-throwable)
 (def invoke-static-method cl/invoke-static-method)
+(def load-class cl/load-class)
 
 
 ;; ----------------------------------------------------------------------------

@@ -17,11 +17,11 @@ public class ClojureNREPLServer {
         REQUIRE.invoke(Clojure.read(EXCIMER_NREPL_NS));
     }
 
-    private static final IFn NREPL_SERVER = Clojure.var("excimer.nrepl.server", "nrepl-server");
-    private static final IFn START_NREPL_SERVER = Clojure.var("excimer.nrepl.server", "start-nrepl-server");
-    private static final IFn STOP_NREPL_SERVER  = Clojure.var("excimer.nrepl.server", "stop-nrepl-server");
-    private static final IFn GET_PORT  = Clojure.var("excimer.nrepl.server", "get-port");
-    private static final IFn IS_RUNNING  = Clojure.var("excimer.nrepl.server", "is-running");
+    private static final IFn NREPL_SERVER = Clojure.var(EXCIMER_NREPL_NS, "nrepl-server");
+    private static final IFn START_NREPL_SERVER = Clojure.var(EXCIMER_NREPL_NS, "start-nrepl-server");
+    private static final IFn STOP_NREPL_SERVER  = Clojure.var(EXCIMER_NREPL_NS, "stop-nrepl-server");
+    private static final IFn GET_PORT  = Clojure.var(EXCIMER_NREPL_NS, "get-port");
+    private static final IFn IS_RUNNING  = Clojure.var(EXCIMER_NREPL_NS, "is-running");
 
     public ClojureNREPLServer() {
     }

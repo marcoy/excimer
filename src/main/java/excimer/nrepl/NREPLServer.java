@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ManagedResource(objectName = "excimer:name=NREPLServer")
 public class NREPLServer implements ApplicationContextAware {
-    private static Logger LOGGER = LoggerFactory.getLogger(NREPLServer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NREPLServer.class);
 
     public static volatile NREPLServer INSTANCE = null;
 

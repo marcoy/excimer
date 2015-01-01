@@ -1,15 +1,11 @@
-(ns excimer.btrace.paths
+(ns excimer.paths
   (:require [clojure.java.io :as io])
-  (:import [java.io File]))
+  (:import [org.apache.commons.io FileUtils]
+           [java.io File]))
 
 (defonce classpath (System/getProperty "java.class.path"))
 (defonce java-home (System/getProperty "java.home"))
 
-
-(defn- jar-path
-  "Attempt to locate a jar in the resources and return its path."
-  [jar-name]
-  (.getPath (io/resource jar-name)))
 
 (defn- get-toolsjar-classpath
   "Locate tools.jar in the classpath"
@@ -20,7 +16,7 @@
 (defn- get-toolsjar-javahome
   "Locate tools.jar in ${java.home}"
   []
-  (let [file (File. (clojure.string/join java.io.File/separator
+  (let [file (File. (clojure.string/join File/separator
                       [(System/getProperty "java.home") ".." "lib" "tools.jar"]))]
     (if (.exists file)
       (.getPath file)
@@ -41,3 +37,16 @@
     (some #(when-some [toolsjar %] toolsjar)
           [toolsjar-classpath toolsjar-javahome toolsjar-guess])))
 
+(defn jar-path
+  "Attempt to locate a jar in the resources and return its path. If the jar is
+   inside another jar, it will write out the jar to /tmp."
+  [jar-name]
+  (when-some [jar-url (io/resource jar-name)]
+    (let [jar-file (File. (.getPath jar-url))]
+      (if (.exists jar-file)
+        (.getAbsolutePath jar-file)
+        (let [jar-stream (io/input-stream jar-url)
+              tmp-jar-file (File. (clojure.string/join File/separator
+                                    ["/tmp" jar-name]))]
+          (do (FileUtils/copyInputStreamToFile jar-stream tmp-jar-file)
+              (.getAbsolutePath tmp-jar-file)))))))

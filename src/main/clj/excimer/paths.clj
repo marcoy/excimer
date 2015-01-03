@@ -5,6 +5,7 @@
 
 (defonce classpath (System/getProperty "java.class.path"))
 (defonce java-home (System/getProperty "java.home"))
+(defonce sys-tmp-dir (System/getProperty "java.io.tmpdir"))
 
 
 (defn- get-toolsjar-classpath

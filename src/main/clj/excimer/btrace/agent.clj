@@ -5,7 +5,6 @@
 
 (defonce bootjar-path (jar-path "btrace-boot.jar"))
 (defonce agentjar-path (jar-path "btrace-agent.jar"))
-(defonce clientjar-path (jar-path "btrace-client.jar"))
 
 
 (defn load-agent

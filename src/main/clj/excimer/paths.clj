@@ -51,3 +51,7 @@
                                     ["/tmp" jar-name]))]
           (do (FileUtils/copyInputStreamToFile jar-stream tmp-jar-file)
               (.getAbsolutePath tmp-jar-file)))))))
+
+(defn append-classpath [& jars]
+  (let [system-cp (System/getProperty "java.class.path")]
+    (clojure.string/join (File/pathSeparator) (concat (list system-cp) jars))))

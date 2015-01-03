@@ -1,5 +1,6 @@
 (ns excimer.btrace.compile
-  (:require [excimer.paths :refer [jar-path]]
+  (:require [clojure.tools.logging :as log]
+            [excimer.paths :refer [jar-path append-classpath]]
             [excimer.class-loading :refer [load-class param-array]]))
 
 (defonce clientjar-path (jar-path "btrace-client.jar"))
@@ -14,4 +15,6 @@
 
 (defn btrace-compile
   [btrace-client java-file]
-  (.compile btrace-client java-file (System/getProperty "java.class.path")))
+  (let [cp (append-classpath clientjar-path)]
+    (log/info "Compiling" java-file "with classpath" cp)
+    (.compile btrace-client java-file cp)))

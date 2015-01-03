@@ -1,7 +1,9 @@
 (ns excimer.btrace.compile
   (:require [clojure.tools.logging :as log]
             [excimer.paths :refer [jar-path append-classpath]]
-            [excimer.class-loading :refer [load-class param-array]]))
+            [excimer.class-loading :refer [load-class param-array]])
+  (:import [java.io File]
+           [org.apache.commons.io FileUtils FilenameUtils]))
 
 (defonce clientjar-path (jar-path "btrace-client.jar"))
 
@@ -18,3 +20,13 @@
   (let [cp (append-classpath clientjar-path)]
     (log/info "Compiling" java-file "with classpath" cp)
     (.compile btrace-client java-file cp)))
+
+(defn btrace-compile-to-file
+  ([btrace-client java-file ^File out-file]
+    (let [bytecode (btrace-compile btrace-client java-file)]
+      (FileUtils/writeByteArrayToFile out-file bytecode)))
+  ([btrace-client java-file]
+    (let [out-file (-> java-file
+                      FilenameUtils/getBaseName
+                      (str ".class"))]
+      (btrace-compile-to-file btrace-client java-file (File. out-file)))))

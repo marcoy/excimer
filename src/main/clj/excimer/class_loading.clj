@@ -16,7 +16,7 @@
     (.loadClass class-loader class-name)))
 
 (defn invoke-static-method [^Class klass ^String method-name & args]
-  (let [arg-classes (param-array args)
+  (let [arg-classes (apply param-array args)
         method (.getMethod klass method-name arg-classes)]
     (.invoke method nil (into-array args))))
 

@@ -8,7 +8,7 @@
 
 
 (defn load-agent
-  "Load the btrace agent"
+  "Attach to the current jvm, and load the btrace agent."
   [& {:keys [port debug unsafe systemClassPath bootClassPath trackRetransforms probeDescPath]
       :as arg-params}]
   (let [default-args {:port 3030 :debug true :unsafe true :systemClassPath (find-toolsjar)

@@ -11,7 +11,9 @@
       (clojure.string/split #"@")
       first))
 
-(defn load-vm-class []
+(defn load-vm-class
+  "Load the class `com.sun.tools.attach.VirtualMachine` from `tools.jar`."
+  []
   (let [toolsjar-path (find-toolsjar)]
     (load-class "com.sun.tools.attach.VirtualMachine" toolsjar-path)))
 

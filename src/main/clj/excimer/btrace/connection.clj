@@ -4,7 +4,7 @@
   (:import [java.io EOFException PrintWriter ObjectInputStream ObjectOutputStream]
            [java.net Socket]))
 
-(defonce btrace-connection (atom nil))
+(defonce ^{:doc "A global btrace-agent connection."} btrace-connection (atom nil))
 
 (defn- printer-loop
   [ois print-writer]
@@ -21,6 +21,7 @@
     (catch InterruptedException e (log/info "Printer loop interrupted"))))
 
 (defn close-connection
+  "Close an established btrace connection."
   [c]
   (let [{:keys [sock ois oos printer]} c]
     (do
@@ -28,6 +29,7 @@
       (reset! btrace-connection nil))))
 
 (defn new-connection
+  "Establish a connection to the btrace-agent."
   ([agent-port] (new-connection agent-port *out*))
   ([agent-port ^PrintWriter print-writer]
    (do

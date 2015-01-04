@@ -1,7 +1,7 @@
 (ns excimer.nrepl.server
   (:require [clojure.tools.nrepl.server :refer [start-server stop-server]]))
 
-(def nrepl-server (atom nil))
+(defonce ^{:doc "A global nREPL server instance."} nrepl-server (atom nil))
 
 (defn start-nrepl-server
   ([] (start-nrepl-server 0))
@@ -18,6 +18,7 @@
       (reset! nrepl-server nil))))
 
 (defn get-port
+  "Get the port which the nREPL server is listening on."
   []
   (when-some [s @nrepl-server]
     (:port s)))

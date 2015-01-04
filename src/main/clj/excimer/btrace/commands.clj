@@ -254,7 +254,7 @@
 ;; ACTION
 ;; ----------------------------------------------------------------------------
 (defn send-cmd
-  "Send a command to the btrace agent"
+  "Send a command to the btrace agent."
   [cmd ^ObjectOutputStream oos]
   (when (some? oos)
     (do
@@ -262,5 +262,6 @@
       (writebytes cmd oos))))
 
 (defn send-exit
+  "Send an exit command to the btrace agent."
   ([^ObjectOutputStream oos]   (send-exit 0 oos))
   ([c ^ObjectOutputStream oos] (send-cmd (exit-command c) oos)))

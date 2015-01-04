@@ -1,4 +1,4 @@
-(defproject excimer "0.1.3"
+(defproject excimer "0.1.4"
   :description "Clojure RPEL and btrace"
 
   :url "http://marcoyuen.com"
@@ -10,7 +10,10 @@
 
   :repl-options { :init-ns excimer.repl }
 
-  :plugins [[lein-cprint "1.0.0"]]
+  :plugins [[codox "0.8.10"]
+            [lein-cprint "1.0.0"]]
+
+  :codox {:defaults {:doc/format :markdown}}
 
   :source-paths ["src/main/clj"]
 

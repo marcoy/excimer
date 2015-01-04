@@ -6,12 +6,21 @@
   (:import [java.io File]
            [org.apache.commons.io IOUtils]))
 
-(defonce load-agent btagent/load-agent)
-(defonce btrace-connection btconn/btrace-connection)
-(defonce new-btrace-connection btconn/new-connection)
-(defonce close-btrace-connection btconn/close-connection)
+(defonce ^{:doc "Refer to [[excimer.btrace.agent/load-agent]]."}
+  load-agent btagent/load-agent)
+
+(defonce ^{:doc "Refer to [[excimer.btrace.connection/btrace-connection]]."}
+  btrace-connection btconn/btrace-connection)
+
+(defonce ^{:doc "Refer to [[excimer.btrace.connection/new-connection]]."}
+  new-btrace-connection btconn/new-connection)
+
+(defonce ^{:doc "Refer to [[excimer.btrace.connection/close-connection]]."}
+  close-btrace-connection btconn/close-connection)
 
 (defn instrument-jvm
+  "Submit a class to the btrace-agent. The class must be compiled with the
+   btrace compiler, `btracec`."
   ([class-file-path]
     (if-some [conn (deref btconn/btrace-connection)]
       (instrument-jvm conn class-file-path)
@@ -25,6 +34,8 @@
           (btcom/writebytes ic oos))
         (println class-file-path "doesn't exist or a wrong path is given")))))
 
-(defn stop []
+(defn stop
+  "Stop the instrumentation started by [[instrument-jvm]]."
+  []
   (when-some [conn (deref btconn/btrace-connection)]
     (close-btrace-connection conn)))

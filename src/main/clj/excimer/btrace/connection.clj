@@ -1,24 +1,41 @@
 (ns excimer.btrace.connection
-  (:require [excimer.btrace.commands :refer [send-exit]])
-  (:import [java.io PrintWriter ObjectInputStream ObjectOutputStream]
+  (:require [clojure.tools.logging :as log]
+            [excimer.btrace.commands :refer [printcmd readbytes send-exit]])
+  (:import [java.io EOFException PrintWriter ObjectInputStream ObjectOutputStream]
            [java.net Socket]))
 
 (defonce btrace-connection (atom nil))
 
+(defn- printer-loop
+  [ois print-writer]
+  (try
+    (loop []
+      (let [cmd-type (.readByte ois)
+            cmd (readbytes cmd-type ois)]
+        (condp contains? (:type cmd)
+          #{4 6 9} (printcmd cmd print-writer)
+          (do (.println print-writer cmd)
+              (.flush print-writer))))
+      (recur))
+    (catch EOFException e (log/info "Printer loop stopped"))
+    (catch InterruptedException e (log/info "Printer loop interrupted"))))
+
 (defn close-connection
-  [s]
-  (let [{:keys [sock ois oos writer]} s]
+  [c]
+  (let [{:keys [sock ois oos printer]} c]
     (do
       (send-exit oos)
       (reset! btrace-connection nil))))
 
 (defn new-connection
   ([agent-port] (new-connection agent-port *out*))
-  ([agent-port ^PrintWriter writer]
+  ([agent-port ^PrintWriter print-writer]
    (do
-     (when-first [s @btrace-connection]
+     (when-some [s @btrace-connection]
        (close-connection s))
      (let [sock (Socket. "127.0.0.1" agent-port)
            oos  (ObjectOutputStream. (.getOutputStream sock))
-           ois  (ObjectInputStream. (.getInputStream sock))]
-       (reset! btrace-connection {:sock sock :oos oos :ois ois :writer nil})))))
+           ois  (ObjectInputStream. (.getInputStream sock))
+           printer-thread (Thread. #(printer-loop ois print-writer))]
+       (.start printer-thread)
+       (reset! btrace-connection {:sock sock :oos oos :ois ois :printer printer-thread})))))

@@ -1,4 +1,4 @@
-(defproject excimer "0.1.3-SNAPSHOT"
+(defproject excimer "0.1.3"
   :description "Clojure RPEL and btrace"
 
   :url "http://marcoyuen.com"

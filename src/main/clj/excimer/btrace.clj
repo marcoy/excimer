@@ -7,18 +7,9 @@
            [org.apache.commons.io IOUtils]))
 
 (defonce load-agent btagent/load-agent)
+(defonce btrace-connection btconn/btrace-connection)
 (defonce new-btrace-connection btconn/new-connection)
 (defonce close-btrace-connection btconn/close-connection)
-
-(defn recv-btrace-messages
-  [ois]
-  (loop []
-    (let [cmd-type (.readByte ois)
-          cmd (btcom/readbytes cmd-type ois)]
-      (condp contains? (:type cmd)
-        #{4 6 9} (btcom/printcmd cmd *out*)
-        (println cmd)))
-    (recur)) )
 
 (defn instrument-jvm
   ([class-file-path]
@@ -31,6 +22,9 @@
         (let [{:keys [sock ois oos]} conn
               bytecode (IOUtils/toByteArray (io/input-stream class-file-path))
               ic (btcom/instrument-command bytecode [])]
-          (btcom/writebytes ic oos)
-          (recv-btrace-messages ois))
+          (btcom/writebytes ic oos))
         (println class-file-path "doesn't exist or a wrong path is given")))))
+
+(defn stop []
+  (when-some [conn (deref btconn/btrace-connection)]
+    (close-btrace-connection conn)))

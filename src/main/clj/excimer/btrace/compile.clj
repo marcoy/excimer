@@ -10,10 +10,17 @@
 (defn create-btrace-client
   "Create an instance of `com.sun.btrace.client.Client`."
   ([] (create-btrace-client 0))
-  ([btrace-port] (let [client-class (load-class "com.sun.btrace.client.Client" clientjar-path)
-                       client-inst (-> (.getConstructor client-class (into-array Class [Integer/TYPE]))
-                                       (.newInstance (into-array [(int btrace-port)])))]
-                   client-inst)))
+  ([btrace-port] (create-btrace-client btrace-port false false))
+  ([btrace-port debug unsafe] (let [client-class (load-class "com.sun.btrace.client.Client" clientjar-path)
+                                    client-inst (-> (.getConstructor client-class (into-array Class
+                                                                                              [Integer/TYPE (class ".")
+                                                                                               Boolean/TYPE Boolean/TYPE
+                                                                                               Boolean/TYPE Boolean/TYPE
+                                                                                               (class ".")]))
+                                                    (.newInstance (into-array Object [(int btrace-port) "."
+                                                                                      (boolean debug) false
+                                                                                      (boolean unsafe) false nil])))]
+                                client-inst)))
 
 (defn btrace-compile
   "Compile the given java file, and return the bytecode as a byte array."

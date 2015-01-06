@@ -7,8 +7,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
-public class BtraceCompile {
-    private static final Logger LOGGER = LoggerFactory.getLogger(BtraceCompile.class);
+/**
+ * Java API to 'excimer.btrace.compile'.
+ */
+public class BtraceCompiler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BtraceCompiler.class);
 
     private static final String EXCIMER_BTRACE_COMPILE_NS = "excimer.btrace.compile";
 

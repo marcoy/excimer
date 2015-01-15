@@ -1,4 +1,4 @@
-(defproject excimer "0.1.6"
+(defproject excimer "0.1.7-SNAPSHOT"
   :description "Clojure RPEL and btrace"
 
   :url "http://marcoyuen.com"
@@ -26,7 +26,7 @@
                  [org.clojure/clojure "1.6.0"]
                  [org.clojure/tools.logging "0.3.1"]
                  [org.clojure/tools.namespace "0.2.8"]
-                 [org.clojure/tools.nrepl "0.2.6"]
+                 [org.clojure/tools.nrepl "0.2.7"]
                  [org.slf4j/slf4j-api "1.7.10"]
                  [slingshot "0.12.1"]]
 

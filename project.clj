@@ -21,7 +21,7 @@
 
   :java-source-paths ["src/main/java"]
 
-  :dependencies [[aprint "0.1.1"]
+  :dependencies [[aprint "0.1.3"]
                  [commons-io/commons-io "2.4"]
                  [org.clojure/clojure "1.6.0"]
                  [org.clojure/tools.logging "0.3.1"]

@@ -28,11 +28,11 @@
                  [org.clojure/tools.namespace "0.2.9"]
                  [org.clojure/tools.nrepl "0.2.7"]
                  [org.slf4j/slf4j-api "1.7.10"]
-                 [slingshot "0.12.1"]]
+                 [slingshot "0.12.2"]]
 
   :profiles {
              :provided
              {
-              :dependencies [[org.springframework/spring-context "4.1.4.RELEASE"]]
+              :dependencies [[org.springframework/spring-context "4.1.5.RELEASE"]]
              }
             })

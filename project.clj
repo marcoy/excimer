@@ -12,8 +12,8 @@
 
   :repl-options { :init-ns excimer.repl }
 
-  :plugins [[codox "0.8.10"]
-            [lein-cprint "1.0.0"]]
+  :plugins [[codox "0.8.12"]
+            [lein-cprint "1.1.0"]]
 
   :codox {:defaults {:doc/format :markdown}}
 

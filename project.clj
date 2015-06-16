@@ -1,4 +1,4 @@
-(defproject excimer "0.2.0-SNAPSHOT"
+(defproject excimer "0.2.1-SNAPSHOT"
   :description "Clojure RPEL and btrace"
 
   :url "http://marcoyuen.com"
@@ -8,7 +8,7 @@
 
   :min-lein-version "2.0.0"
 
-  :javac-options ["-target" "1.8" "-source" "1.8"]
+  :javac-options ["-target" "1.7" "-source" "1.7"]
 
   :repl-options { :init-ns excimer.repl }
 

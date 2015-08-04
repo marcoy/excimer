@@ -23,7 +23,7 @@
 
   :dependencies [[aprint "0.1.3"]
                  [commons-io/commons-io "2.4"]
-                 [org.clojure/clojure "1.6.0"]
+                 [org.clojure/clojure "1.7.0"]
                  [org.clojure/tools.logging "0.3.1"]
                  [org.clojure/tools.namespace "0.2.10"]
                  [org.clojure/tools.nrepl "0.2.10"]

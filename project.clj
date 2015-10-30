@@ -1,4 +1,4 @@
-(defproject excimer "0.2.1-SNAPSHOT"
+(defproject excimer "0.2.2-SNAPSHOT"
   :description "Clojure RPEL and btrace"
 
   :url "http://marcoyuen.com"
@@ -7,8 +7,6 @@
             :url "http://www.gnu.org/copyleft/gpl.html"}
 
   :min-lein-version "2.0.0"
-
-  :javac-options ["-target" "1.7" "-source" "1.7"]
 
   :repl-options { :init-ns excimer.repl }
 
@@ -26,8 +24,9 @@
                  [org.clojure/clojure "1.7.0"]
                  [org.clojure/tools.logging "0.3.1"]
                  [org.clojure/tools.namespace "0.2.10"]
-                 [org.clojure/tools.nrepl "0.2.10"]
+                 [org.clojure/tools.nrepl "0.2.12"]
                  [org.slf4j/slf4j-api "1.7.12"]
+                 [mvxcvi/puget  "1.0.0"]
                  [slingshot "0.12.2"]]
 
   :profiles {

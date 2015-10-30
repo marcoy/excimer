@@ -20,8 +20,9 @@
 (defn get-port
   "Get the port which the nREPL server is listening on."
   []
-  (when-some [s @nrepl-server]
-    (:port s)))
+  (if-some [s @nrepl-server]
+    (:port s)
+    (int -1)))
 
 (defn is-running
   []

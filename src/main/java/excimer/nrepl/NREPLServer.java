@@ -58,13 +58,13 @@ public class NREPLServer implements ApplicationContextAware {
             @ManagedOperationParameter(name = "port", description = "Port to listen on.")
     })
     public void startServer(Integer port) {
-        LOGGER.info("Starting a nREPL server on port {}", port);
+        LOGGER.info("Starting the nREPL server on port {}", port);
         ClojureNREPLServer.startServer(port);
     }
 
     @ManagedOperation(description = "Stop the NREPLServer.")
     public void stopServer() {
-        LOGGER.info("Stopping a nREPL server");
+        LOGGER.info("Stopping the nREPL server");
         ClojureNREPLServer.stopServer();
     }
 }

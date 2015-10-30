@@ -43,7 +43,7 @@ public class ClojureNREPLServer {
     /**
      * Get the port that the nREPL server is listening on.
      *
-     * @return The port number or null if nREPL server is not running.
+     * @return The port number or -1 if nREPL server is not running.
      */
     public static Integer getPort() {
         return (Integer) GET_PORT.invoke();

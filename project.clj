@@ -21,17 +21,17 @@
 
   :dependencies [[aprint "0.1.3"]
                  [commons-io/commons-io "2.4"]
-                 [org.clojure/clojure "1.7.0"]
+                 [org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.logging "0.3.1"]
                  [org.clojure/tools.namespace "0.2.10"]
                  [org.clojure/tools.nrepl "0.2.12"]
-                 [org.slf4j/slf4j-api "1.7.12"]
+                 [org.slf4j/slf4j-api "1.7.14"]
                  [mvxcvi/puget  "1.0.0"]
                  [slingshot "0.12.2"]]
 
   :profiles {
              :provided
              {
-              :dependencies [[org.springframework/spring-context "4.2.0.RELEASE"]]
+              :dependencies [[org.springframework/spring-context "4.2.4.RELEASE"]]
              }
             })

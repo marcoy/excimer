@@ -20,8 +20,9 @@ public class ClojureNREPLServer {
     private static final IFn NREPL_SERVER = Clojure.var(EXCIMER_NREPL_NS, "nrepl-server");
     private static final IFn START_NREPL_SERVER = Clojure.var(EXCIMER_NREPL_NS, "start-nrepl-server");
     private static final IFn STOP_NREPL_SERVER  = Clojure.var(EXCIMER_NREPL_NS, "stop-nrepl-server");
-    private static final IFn GET_PORT  = Clojure.var(EXCIMER_NREPL_NS, "get-port");
-    private static final IFn IS_RUNNING  = Clojure.var(EXCIMER_NREPL_NS, "is-running");
+    private static final IFn GET_PORT   = Clojure.var(EXCIMER_NREPL_NS, "get-port");
+    private static final IFn GET_ADDR   = Clojure.var(EXCIMER_NREPL_NS, "get-addr");
+    private static final IFn IS_RUNNING = Clojure.var(EXCIMER_NREPL_NS, "is-running");
 
     public ClojureNREPLServer() {
     }
@@ -29,8 +30,12 @@ public class ClojureNREPLServer {
     /**
      * Start the nREPL server.
      */
-    public static void startServer(Integer port) {
+    public static void startServer(final Integer port) {
         START_NREPL_SERVER.invoke(port);
+    }
+
+    public static void startServerLocally(final Integer port) {
+        START_NREPL_SERVER.invoke("127.0.0.1", port);
     }
 
     /**
@@ -47,6 +52,15 @@ public class ClojureNREPLServer {
      */
     public static Integer getPort() {
         return (Integer) GET_PORT.invoke();
+    }
+
+    /**
+     * Get the address that the nREPL server is listening on.
+     *
+     * @return The address.
+     */
+    public static String getAddr() {
+        return (String) GET_ADDR.invoke();
     }
 
     /**

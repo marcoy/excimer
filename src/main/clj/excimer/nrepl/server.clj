@@ -8,7 +8,11 @@
   ([port]
    (when-some [s @nrepl-server]
      (stop-server s))
-   (reset! nrepl-server (start-server :port port))))
+   (reset! nrepl-server (start-server :port port)))
+  ([^String addr port]
+    (when-some [s @nrepl-server]
+      (stop-server s))
+    (reset! nrepl-server (start-server :port port :bind addr))))
 
 (defn stop-nrepl-server
   []
@@ -23,6 +27,12 @@
   (if-some [s @nrepl-server]
     (:port s)
     (int -1)))
+
+(defn get-addr
+  "Get the address which the nREPL server is listening on."
+  []
+  (when-some [s @nrepl-server]
+    (:bind s)))
 
 (defn is-running
   []
